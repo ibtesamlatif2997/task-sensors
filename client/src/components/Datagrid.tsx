@@ -2,21 +2,32 @@ import React from 'react';
 
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 
-const rows: GridRowsProp = [
-  { id: 1, col1: 'Hello', col2: 'World' },
-  { id: 2, col1: 'DataGridPro', col2: 'is Awesome' },
-  { id: 3, col1: 'MUI', col2: 'is Amazing' },
-];
+export default function Datagrid({ data }: { data: any }) {
+  console.log("Datagrid", data);
+  const classMap: any = {};
+  const hourMap: any = {};
+  const columns: GridColDef[] = [{ field: 'hour', headerName: 'hour', width: 150 }];
 
-const columns: GridColDef[] = [
-  { field: 'col1', headerName: 'Column 1', width: 150 },
-  { field: 'col2', headerName: 'Column 2', width: 150 },
-];
+  let rowsData: any = Array.from(Array(24).keys());
 
-export default function Datagrid(){
-    return (
-        <div style={{ height: 300, width: '100%' }}>
-          <DataGrid rows={rows} columns={columns} />
-        </div>
-      );
+  for (const stat of data) {
+    if (!classMap[stat.class]) {
+      columns.push({ field: stat.class, headerName: stat.class, width: 150 });
+      classMap[stat.class] = true;
+    }
+
+    if (!hourMap[stat.hour]) {
+      const data: any = {};
+      data[stat.class] = stat.count;
+      data['hour'] = stat.hour;
+      data['id'] = stat.hour;
+      rowsData[stat.hour] = { ...rowsData[stat.hour], ...data };
+    }
+  }
+
+  return (
+    <div style={{ height: 300, width: '100%' }}>
+      <DataGrid rows={rowsData} columns={columns} />
+    </div>
+  );
 }

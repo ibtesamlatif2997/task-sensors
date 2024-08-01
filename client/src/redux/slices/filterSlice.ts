@@ -3,15 +3,16 @@ import { createSlice } from '@reduxjs/toolkit'
 export const filterSlice = createSlice({
     name: 'filters',
     initialState: {
-        sensors: null,
+        sensors: "",
         date: "",
         approach: ""
     },
     reducers: {
         setFilters: (state, action) => {
+            console.log("setFilters", action)
             return {
                 ...state,
-                sensors: action.payload.sensors
+                ...action.payload
             }
         }
     },

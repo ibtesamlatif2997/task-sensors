@@ -33,6 +33,11 @@ async def get_hourly_counts(params):
   match = {
     "$match": {}
   }
+  
+  aggregate = {
+    "hour": { "$hour": '$time' },
+    "approach": '$approach'
+  }
 
   if(params and params["sensor_class"] != None ):
     match["$match"]["sensor_class"] = params["sensor_class"]
@@ -41,16 +46,16 @@ async def get_hourly_counts(params):
     match["$match"]["approach"] = params["approach"]
     
   if(params and params["sensor_id"] != None):
-    match["$match"]["sensor_id"] = params["sensor_id"]     
+    match["$match"]["sensor_id"] = params["sensor_id"]    
+
+  if("aggregate_class" in params):
+    aggregate['sensor_class'] = "$sensor_class"
 
   results = await SensorData.aggregate([
                     match,
                   {
                     "$group": {
-                      "_id": {
-                        "hour": { "$hour": '$time' },
-                        "approach": '$approach'
-                      },
+                      "_id": aggregate,
                       "count": { "$sum": 1 }
                     }
                   },
