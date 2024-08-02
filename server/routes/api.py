@@ -6,7 +6,7 @@ from services.sensors import get_hourly_counts, get_filters_data
 
 router = APIRouter()
 
-@router.get("/filters", response_description="Get hourly count")
+@router.get("/filters", response_description="Get filters data")
 async def get_filters():
     return await get_filters_data()
 
@@ -14,23 +14,27 @@ async def get_filters():
 @router.get("/counts", response_description="Get hourly count")
 async def get_hourly_stats(sensor_class: Union[str, None] = None, 
                       approach: Union[str, None] = None , 
-                      sensor_id: Union[str, None] = None):
+                      sensor: Union[str, None] = None,
+                      date: Union[str, None] = None):
     params = {
         "sensor_class": sensor_class,
         "approach": approach,
-        "sensor_id": sensor_id
+        "sensor_id": sensor,
+        "date": date
     }
     return await get_hourly_counts(params)
 
 
-@router.get("/pedestrian_counts", response_description="Get hourly count")
+@router.get("/pedestrian_counts", response_description="Get pedestrian hourly count")
 async def get_hourly_stats(sensor_class: Union[str, None] = None, 
                       approach: Union[str, None] = None , 
-                      sensor_id: Union[str, None] = None):
+                      sensor: Union[str, None] = None,
+                      date: Union[str, None] = None):
     params = {
         "sensor_class": "pedestrian",
         "approach": approach,
-        "sensor_id": sensor_id
+        "sensor_id": sensor,
+        "date": date
     }
     return await get_hourly_counts(params)
 
@@ -38,11 +42,13 @@ async def get_hourly_stats(sensor_class: Union[str, None] = None,
 @router.get("/hourly_data", response_description="Get hourly, class count")
 async def get_hourly_stats(sensor_class: Union[str, None] = None, 
                       approach: Union[str, None] = None , 
-                      sensor_id: Union[str, None] = None):
+                      sensor: Union[str, None] = None,
+                      date: Union[str, None] = None):
     params = {
         "sensor_class": sensor_class,
         "approach": approach,
-        "sensor_id": sensor_id,
+        "sensor_id": sensor,
+        "date": date,
         "aggregate_class": True
     }
     

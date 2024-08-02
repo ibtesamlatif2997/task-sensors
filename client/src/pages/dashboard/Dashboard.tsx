@@ -9,19 +9,22 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Dropdown from '../../components/Dropdown';
 import { DropdownData } from '../../types/types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setFilters } from '../../redux/slices/filterSlice';
 
 import Datagrid from '../../components/Datagrid';
 
 
 export default function Dashboard() {
+    const dispatch = useDispatch()
+
     const [hourlyData, setHourlyData] = useState<any>([]);
     const [hourlyClassData, setHourlyClassData] = useState<any>([]);
     const [pedistrianData, setPedistrianData] = useState<any>([]);
     const [sensorFilters, setSensorFilters] = useState<DropdownData[]>([]);
     const [approachFilters, setApproachFilters] = useState<DropdownData[]>([]);
 
-    const filters = useSelector((state: any) => state.filters)
+    let filters = useSelector((state: any) => state.filters)
 
     useEffect(() => {
         getHourlyData();
@@ -52,9 +55,21 @@ export default function Dashboard() {
     }
 
     function applyFilters() {
-        console.log("applyFilters:", filters);
+        console.log("filter", filters)
         getHourlyData();
         getPedistrianData();
+        getHourlyDataByClass();
+    }
+
+    function resetFilters() {
+        filters = {
+            sensor: null,
+            date: null,
+            datetime: null,
+            approach: null
+        }
+        dispatch(setFilters(filters));
+        applyFilters();
     }
 
     return (
@@ -62,10 +77,11 @@ export default function Dashboard() {
             <div>
                 <div style={{ display: 'flex', justifyContent: 'center', margin: "5px", marginBottom: "50px" }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker />
+                        <DatePicker value={filters.datetime} onChange={(newValue) => dispatch(setFilters({ date: newValue }))} />
                     </LocalizationProvider>
-                    <Dropdown data={sensorFilters} label="Sensors" type="sensors"></Dropdown>
-                    <Dropdown data={approachFilters} label="Approaches" type="approach"></Dropdown>
+                    <Dropdown data={sensorFilters} value={filters.sensor} label="Sensors" type="sensor"></Dropdown>
+                    <Dropdown data={approachFilters} value={filters.approach} label="Approaches" type="approach"></Dropdown>
+                    <Button variant="contained" onClick={resetFilters}>Reset</Button>
                     <Button variant="contained" onClick={applyFilters}>Apply</Button>
                 </div>
                 <Container>

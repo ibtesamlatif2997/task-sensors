@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { DropdownData } from '../types/types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setFilters } from '../redux/slices/filterSlice';
 
 
-export default function Dropdown({ data, label, type }: { data: DropdownData[], label: string, type: string }) {
+export default function Dropdown({ data, label, value, type }: { data: DropdownData[], label: string, value: string, type: string }) {
     // const filters = useSelector((state:any) => state.filters)
     const dispatch = useDispatch()
     const selectChange = (event: SelectChangeEvent) => {
-        const data:any = {};
+        const data: any = {};
         data[type] = event.target.value;
         dispatch(setFilters(data))
     }
@@ -22,6 +22,7 @@ export default function Dropdown({ data, label, type }: { data: DropdownData[], 
                 style={{ width: '100px' }}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
+                value={value}
                 label={label}
                 onChange={selectChange}
             >

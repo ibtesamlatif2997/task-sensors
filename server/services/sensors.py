@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Union
 from models.sensordata import SensorData
 
@@ -48,20 +49,40 @@ async def get_hourly_counts(params):
     "hour": { "$hour": '$time' },
     "approach": '$approach'
   }
+  
+  print("params", params)
+
+  if(params and params["date"] != None ):
+    print("params", params)
+    match["$match"]["date"] = params["date"]
 
   if(params and params["sensor_class"] != None ):
     match["$match"]["sensor_class"] = params["sensor_class"]
-    
+
   if(params and params["approach"] != None):
     match["$match"]["approach"] = params["approach"]
-    
+
   if(params and params["sensor_id"] != None):
-    match["$match"]["sensor_id"] = params["sensor_id"]    
+    match["$match"]["sensor_id"] = int(params["sensor_id"])    
 
   if("aggregate_class" in params):
     aggregate['sensor_class'] = "$sensor_class"
 
   results = await SensorData.aggregate([
+                  {
+                    "$project": {
+                      "time": '$time',
+                      "date": {
+                        "$dateToString": {
+                          "format": "%Y-%m-%d",
+                          "date": '$time'
+                        }
+                      },
+                      "sensor_class": '$sensor_class',
+                      "sensor_id": '$sensor_id',
+                      "approach": '$approach'
+                    }
+                  },
                     match,
                   {
                     "$group": {

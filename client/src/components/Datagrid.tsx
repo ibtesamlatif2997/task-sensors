@@ -3,7 +3,7 @@ import React from 'react';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 
 export default function Datagrid({ data }: { data: any }) {
-  console.log("Datagrid", data);
+
   const classMap: any = {};
   const hourMap: any = {};
   const columns: GridColDef[] = [{ field: 'hour', headerName: 'hour', width: 150 }];

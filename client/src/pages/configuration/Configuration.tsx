@@ -35,7 +35,7 @@ export default function Configuration() {
             <div>
                 <div style={{ float: "left" }}>
                     <Typography variant="h6">
-                        Set events per
+                        Set events
                     </Typography>
                 </div>
                 <div style={{ width: "100%", float: "right" }}>
