@@ -22,10 +22,20 @@ async def get_filters_data():
                   },
                   { "$sort": { "_id": 1 } }
                 ]).to_list()
+  
+  sensor_class = await SensorData.aggregate([
+                  {
+                    "$group": {
+                      "_id": '$sensor_class'
+                    }
+                  },
+                  { "$sort": { "_id": 1 } }
+                ]).to_list()
 
   return {
     "sensors": sensors,
-    "approach": approach
+    "approach": approach,
+    "sensor_class": sensor_class
   }
 
 

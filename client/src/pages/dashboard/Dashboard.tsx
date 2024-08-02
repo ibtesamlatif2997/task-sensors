@@ -59,19 +59,21 @@ export default function Dashboard() {
 
     return (
         <>
-            <div style={{ display: 'flex', justifyContent: 'center', margin: "5px", marginBottom: "50px" }}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker />
-                </LocalizationProvider>
-                <Dropdown data={sensorFilters} label="Sensors" type="sensors"></Dropdown>
-                <Dropdown data={approachFilters} label="Approaches" type="approach"></Dropdown>
-                <Button variant="contained" onClick={applyFilters}>Apply</Button>
+            <div>
+                <div style={{ display: 'flex', justifyContent: 'center', margin: "5px", marginBottom: "50px" }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker />
+                    </LocalizationProvider>
+                    <Dropdown data={sensorFilters} label="Sensors" type="sensors"></Dropdown>
+                    <Dropdown data={approachFilters} label="Approaches" type="approach"></Dropdown>
+                    <Button variant="contained" onClick={applyFilters}>Apply</Button>
+                </div>
+                <Container>
+                    <Graph data={hourlyData}></Graph>
+                    <Graph data={pedistrianData}></Graph>
+                    {hourlyClassData.length > 0 && <Datagrid data={hourlyClassData}></Datagrid>}
+                </Container>
             </div>
-            <Container>
-                <Graph data={hourlyData}></Graph>
-                <Graph data={pedistrianData}></Graph>
-                {hourlyClassData.length > 0 && <Datagrid data={hourlyClassData}></Datagrid>}
-            </Container>
         </>
     )
 }
