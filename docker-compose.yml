@@ -1,0 +1,66 @@
+# Use root/example as user/password credentials
+version: "3.5"
+services:
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - "0.0.0.0:27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: derq
+    volumes:
+      - mongodata:/var/lib/postgresql/data
+    networks:
+      - derq
+      # derq:
+      #   ipv4_address: 10.5.0.10
+
+  client:
+    container_name: client
+    build:
+      context: ./client
+    command: ["bash", "-c", "npm start"]
+    volumes:
+      - ./client:/code
+    # links:
+    #   - server
+    ports:
+      - "3000:3000"
+    # depends_on:
+    #   - server
+    # networks:
+    #   - derq
+
+  server:
+    container_name: server
+    build:
+      context: ./server
+    environment:
+      - DATABASE_URL=mongodb://root:example@mongo:27017/derq?authSource=admin
+    command: ["bash", "-c", "python main.py"]
+    volumes:
+      - ./server:/code
+    links:
+      - mongo
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    networks:
+      - derq
+      # derq:
+      #   ipv4_address: 10.5.0.11
+
+volumes:
+  mongodata: {}
+
+networks:
+  derq:
+    driver: bridge
+    # ipam:
+    #  config:
+    #    - subnet: 10.5.0.0/24
