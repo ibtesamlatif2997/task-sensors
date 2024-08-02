@@ -5,7 +5,7 @@ const SERVER_URL = "http://localhost:8080"
 const axiosInstance = axios.create({
     baseURL: SERVER_URL,
     headers: {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiaWJ0ZXNhbUBnbWFpbC5jb20iLCJleHBpcmVzIjoxNzIyNTQyMjAyLjc0OTM4Nzd9.4PoeIYmS8L8XbVzb4_J39ZSpnvDywQWIV-92bFY8Llc"
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiaWJ0ZXNhbUBnbWFpbC5jb20iLCJleHBpcmVzIjoxNzIyNjAzMjc5LjAyNzcyNzR9.qC2iKDOxYzDHNMtHMrSJWlMFIRPLJbfTxaorJrW1EyQ"
     }
 });
 

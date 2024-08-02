@@ -15,29 +15,52 @@ services:
     volumes:
       - mongodata:/var/lib/postgresql/data
     networks:
-      - derq-network
+      - derq
+      # derq:
+      #   ipv4_address: 10.5.0.10
 
-  mongo-express:
-    image: mongo-express:latest
-    container_name: mongo-express
-    restart: always
+  client:
+    container_name: client
+    build:
+      context: ./client
+    command: ["bash", "-c", "npm start"]
+    volumes:
+      - ./client:/code
+    # links:
+    #   - server
     ports:
-      - "0.0.0.0:8081:8081"
+      - "3000:3000"
+    # depends_on:
+    #   - server
+    # networks:
+    #   - derq
+
+  server:
+    container_name: server
+    build:
+      context: ./server
+    environment:
+      - DATABASE_URL=mongodb://root:example@mongo:27017/derq?authSource=admin
+    command: ["bash", "-c", "python main.py"]
+    volumes:
+      - ./server:/code
     links:
       - mongo
+    ports:
+      - "8080:8080"
     depends_on:
       - mongo
-    environment:
-      # ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      # ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      # ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-      ME_CONFIG_BASICAUTH: false
     networks:
-      - derq-network
+      - derq
+      # derq:
+      #   ipv4_address: 10.5.0.11
 
 volumes:
-  mongodata:
+  mongodata: {}
 
 networks:
-  derq-network:
+  derq:
     driver: bridge
+    # ipam:
+    #  config:
+    #    - subnet: 10.5.0.0/24
