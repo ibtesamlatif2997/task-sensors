@@ -16,13 +16,12 @@ export default function LoginPage() {
     const navigate = useNavigate();
 
     const login = async () => {
-        const params:any = {
+        const params:Password = {
             username: username,
             password: password
         };
         const resp = await APIService.login(params)
         localStorage.setItem("access_token", resp.access_token);
-
         navigate("/");
     }
 

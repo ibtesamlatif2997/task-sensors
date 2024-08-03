@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 
+import { useNavigate } from 'react-router-dom'
 
 
 export default function SideBarMenu() {
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -20,8 +22,8 @@ export default function SideBarMenu() {
                         },
                     }}
                 >
-                    <MenuItem > Dashboard</MenuItem>
-                    <MenuItem > Configuration</MenuItem>
+                    <MenuItem onClick={()=> navigate("/")}> Dashboard</MenuItem>
+                    <MenuItem onClick={()=> navigate("/configure")}> Configuration</MenuItem>
                 </Menu>
             </Sidebar>
         </div>
