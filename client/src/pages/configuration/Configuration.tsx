@@ -1,20 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Switch, TextField, Typography } from '@mui/material';
-import { DropdownData } from '../../types/types';
+import { DropdownData, ConfigData } from '../../types/types';
 import { APIService } from '../../services/api.service';
-
+import { GeneratorService } from '../../services/generator.service';
 
 export default function Configuration() {
     const [classTypes, setClassTypes] = useState<DropdownData[]>([]);
+    const [configData, setConfigData] = useState<ConfigData | any>({
+        probability: {}
+    });
 
     async function getFilters() {
         const data = await APIService.getFilters();
         setClassTypes(data.sensor_class)
+        getConfig();
+    }
+
+    async function getConfig() {
+        const data = await GeneratorService.get();
+        setConfigData(data)
     }
 
     useEffect(() => {
         getFilters()
     }, [])
+
+    function handleChange(params: any) {
+        setConfigData({
+            ...configData,
+            ...params
+        })
+    }
 
     async function applyFilters() {
 
@@ -29,7 +45,7 @@ export default function Configuration() {
                     </Typography>
                 </div>
                 <div style={{ width: "100%", float: "right" }}>
-                    <Switch defaultChecked />
+                    <Switch checked={configData.isGenerator} onChange={(events) => { handleChange({ isGenerator: events.target.value }) }} />
                 </div>
             </div>
             <div>
@@ -39,7 +55,9 @@ export default function Configuration() {
                     </Typography>
                 </div>
                 <div style={{ width: "100%", float: "right" }}>
-                    <TextField type="number" id="standard-basic" label="Events per minute" variant="standard" />
+                    <div>
+                        <TextField value={configData.eventsFrequency} onChange={(events) => { handleChange({ eventsFrequency: events.target.value }) }} type="number" label="Events per minute" variant="standard" />
+                    </div>
                 </div>
             </div>
             <div>
@@ -50,7 +68,7 @@ export default function Configuration() {
                 </div>
                 <div style={{ width: "100%", float: "right" }}>
                     {classTypes.map(element => {
-                        return <div><TextField type="number" label={element._id} variant="standard" /></div>
+                        return <div><TextField value={configData.probability[element._id]} type="number" label={element._id} variant="standard" /></div>
                     })}
                 </div>
             </div>
@@ -62,7 +80,9 @@ export default function Configuration() {
                     </Typography>
                 </div>
                 <div style={{ width: "100%", float: "right" }}>
-                    <TextField type="number" id="standard-basic" label="System down time" variant="standard" />
+                    <div>
+                        <TextField value={configData.systemDowntimeProb} onChange={(events) => { handleChange({ systemDowntimeProb: events.target.value }) }} type="number" label="System down time" variant="standard" />
+                    </div>
                 </div>
             </div>
 
