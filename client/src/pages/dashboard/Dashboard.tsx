@@ -55,7 +55,6 @@ export default function Dashboard() {
     }
 
     function applyFilters() {
-        console.log("filter", filters)
         getHourlyData();
         getPedistrianData();
         getHourlyDataByClass();

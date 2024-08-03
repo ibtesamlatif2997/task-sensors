@@ -39,7 +39,7 @@ export default function Configuration() {
                     </Typography>
                 </div>
                 <div style={{ width: "100%", float: "right" }}>
-                    <TextField id="standard-basic" label="Events per minute" variant="standard" />
+                    <TextField type="number" id="standard-basic" label="Events per minute" variant="standard" />
                 </div>
             </div>
             <div>
@@ -50,7 +50,7 @@ export default function Configuration() {
                 </div>
                 <div style={{ width: "100%", float: "right" }}>
                     {classTypes.map(element => {
-                        return <div><TextField label={element._id} variant="standard" /></div>
+                        return <div><TextField type="number" label={element._id} variant="standard" /></div>
                     })}
                 </div>
             </div>
@@ -62,7 +62,7 @@ export default function Configuration() {
                     </Typography>
                 </div>
                 <div style={{ width: "100%", float: "right" }}>
-                    <TextField id="standard-basic" label="System down time" variant="standard" />
+                    <TextField type="number" id="standard-basic" label="System down time" variant="standard" />
                 </div>
             </div>
 

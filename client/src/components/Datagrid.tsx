@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import { Box } from '@mui/material';
 
 export default function Datagrid({ data }: { data: any }) {
 
@@ -26,8 +27,8 @@ export default function Datagrid({ data }: { data: any }) {
   }
 
   return (
-    <div style={{ height: 300, width: '100%' }}>
+    <Box style={{ height: 500, width: '100%' }}>
       <DataGrid rows={rowsData} columns={columns} />
-    </div>
+    </Box>
   );
 }

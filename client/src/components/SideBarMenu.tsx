@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
+import { Link } from 'react-router-dom';
 
 import { useNavigate } from 'react-router-dom'
 
@@ -22,8 +23,8 @@ export default function SideBarMenu() {
                         },
                     }}
                 >
-                    <MenuItem onClick={()=> navigate("/")}> Dashboard</MenuItem>
-                    <MenuItem onClick={()=> navigate("/configure")}> Configuration</MenuItem>
+                    <MenuItem component={<Link to="/" />}> Dashboard</MenuItem>
+                    <MenuItem component={<Link to="/configure" />}> Configuration</MenuItem>
                 </Menu>
             </Sidebar>
         </div>

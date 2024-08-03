@@ -1,4 +1,4 @@
-import { Button, TextField, Input, InputAdornment, IconButton, InputLabel, FormControl } from '@mui/material'
+import { Button, TextField, Input, InputAdornment, IconButton, InputLabel, FormControl, Container } from '@mui/material'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import React, { useState } from 'react'
@@ -6,23 +6,40 @@ import { useNavigate } from 'react-router-dom'
 import { APIService } from '../../services/api.service';
 import { Password } from '../../types/types';
 
+import Alert from '@mui/material/Alert';
+
 
 export default function LoginPage() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
 
     const navigate = useNavigate();
 
     const login = async () => {
-        const params:Password = {
-            username: username,
-            password: password
-        };
-        const resp = await APIService.login(params)
-        localStorage.setItem("access_token", resp.access_token);
-        navigate("/");
+        try {
+            if (username === "") {
+                setError("Please provide username.")
+                return;
+            }
+            if (password === "") {
+                setError("Please provide password.")
+                return;
+            }
+
+            const params: Password = {
+                username: username,
+                password: password
+            };
+            const resp = await APIService.login(params)
+            localStorage.setItem("access_token", resp.access_token);
+            navigate("/");
+        }
+        catch (err) {
+            setError("The username or password is incorrect.")
+        }
     }
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -33,11 +50,13 @@ export default function LoginPage() {
 
     return (
         <div>
-            <div>
+            {error !== "" &&
+                <Alert variant="outlined" severity="error" onClose={() => { setError("") }}>
+                    {error}
+                </Alert>
+            }
+            <div style={{ display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: "center", marginTop: "100px" }}>
                 <div>Login</div>
-            </div>
-            <br />
-            <div >
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                     <InputLabel htmlFor="standard-adornment-password">Username</InputLabel>
                     <Input
@@ -46,9 +65,6 @@ export default function LoginPage() {
                         onChange={event => setUsername(event.target.value)}
                     />
                 </FormControl>
-            </div>
-            <br />
-            <div>
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                     <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                     <Input
@@ -68,10 +84,10 @@ export default function LoginPage() {
                         }
                     />
                 </FormControl>
-            </div>
-            <br />
-            <div >
-                <Button variant="contained" onClick={login}>Login</Button>
+
+                <div>
+                    <Button variant="contained" onClick={login}>Login</Button>
+                </div>
             </div>
         </div>
     )
