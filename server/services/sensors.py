@@ -1,8 +1,4 @@
-from datetime import datetime
-from typing import List, Union
 from models.sensordata import SensorData
-
-sensordata_collection = SensorData
 
 
 async def get_filters_data():

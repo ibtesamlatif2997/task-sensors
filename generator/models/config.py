@@ -3,39 +3,40 @@ from fastapi.security import HTTPBasicCredentials
 from pydantic import BaseModel, EmailStr
 
 
-class Admin(Document):
-    fullname: str
-    email: EmailStr
-    password: str
+class Config(Document):
+    isGenerator: bool
+    eventsFrequency: int
+    bicycleProb: int
+    carProb: int
+    mobilityAidProb: int
+    motorcycleProb: int
+    pedestrianProb: int
+    systemDowntimeProb: int
 
     class Config:
         json_schema_extra = {
             "example": {
-                "fullname": "Ibtesam Latif",
-                "email": "ibtesam@gmail.com",
-                "password": "12345",
+                "isGenerator": True,
+                "eventsFrequency": 5,
+                "bicycleProb": 5,
+                "carProb": 5,
+                "mobilityAidProb": 5,
+                "motorcycleProb": 5,
+                "pedestrianProb": 5,
+                "systemDowntimeProb": 5,
             }
         }
 
     class Settings:
-        name = "admin"
-
-
-class AdminSignIn(HTTPBasicCredentials):
-    class Config:
-        json_schema_extra = {
-            "example": {"username": "ibtesam@gmail.com", "password": "12345"}
-        }
-
-
-class AdminData(BaseModel):
-    fullname: str
-    email: EmailStr
+        name = "config"
+        
+        
+class ToggleData(BaseModel):
+    isGenerator: bool
 
     class Config:
         json_schema_extra = {
             "example": {
-                "fullname": "Ibtesam Latif",
-                "email": "ibtesam@gmail.com",
+                "isGenerator": True,
             }
         }
