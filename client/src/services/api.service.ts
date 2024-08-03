@@ -1,6 +1,8 @@
 import axios, { isCancel, AxiosError } from 'axios';
+import { Password } from '../types/types';
 
 const SERVER_URL = "http://localhost:8080"
+
 
 const axiosInstance = axios.create({
     baseURL: SERVER_URL,
@@ -11,6 +13,11 @@ const axiosInstance = axios.create({
 
 
 export const APIService = {
+
+    login: async (params:Password) => {
+        const resp = await axiosInstance.post('/admin/login', params);
+        return resp.data;
+    },
 
     getFilters: async () => {
         const resp = await axiosInstance.get('/api/filters');
