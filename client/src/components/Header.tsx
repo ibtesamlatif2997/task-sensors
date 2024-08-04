@@ -9,12 +9,13 @@ export default function Header() {
 
     const logout = () => {
         localStorage.removeItem("access_token")
-        navigate("/login");
+        // eslint-disable-next-line no-restricted-globals
+        location.href = "/login";
     }
 
     return (
-        <div style={{ background: "#5d06ba", height: "50px" }}>
-            <div style={{ marginTop: "10px" }}>Derq Traffic Data</div>
+        <div style={{ display: "flex", justifyContent: "space-between", background: "#5d06ba", height: "30px", padding: "12px" }}>
+            <div>Derq Traffic Data</div>
             <div>
                 <LogoutIcon onClick={logout} />
             </div>

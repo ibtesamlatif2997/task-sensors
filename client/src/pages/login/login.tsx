@@ -35,7 +35,8 @@ export default function LoginPage() {
             };
             const resp = await APIService.login(params)
             localStorage.setItem("access_token", resp.access_token);
-            navigate("/");
+            // eslint-disable-next-line no-restricted-globals
+            location.href = "/";
         }
         catch (err) {
             setError("The username or password is incorrect.")

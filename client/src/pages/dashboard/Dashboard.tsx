@@ -74,14 +74,14 @@ export default function Dashboard() {
     return (
         <>
             <div>
-                <div style={{ display: 'flex', justifyContent: 'center', margin: "5px", marginBottom: "50px" }}>
+                <div style={{ display: 'flex', justifyContent: "space-between", margin: "5px", height: "40px", marginBottom: "50px", width: "80%" }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker value={filters.datetime} onChange={(newValue) => dispatch(setFilters({ date: newValue }))} />
                     </LocalizationProvider>
                     <Dropdown data={sensorFilters} value={filters.sensor} label="Sensors" type="sensor"></Dropdown>
                     <Dropdown data={approachFilters} value={filters.approach} label="Approaches" type="approach"></Dropdown>
-                    <Button variant="contained" onClick={resetFilters}>Reset</Button>
-                    <Button variant="contained" onClick={applyFilters}>Apply</Button>
+                    <Button variant="outlined" color="error" onClick={resetFilters}>Reset</Button>
+                    <Button variant="contained" color="success" onClick={applyFilters}>Apply</Button>
                 </div>
                 <Container>
                     <Graph data={hourlyData}></Graph>

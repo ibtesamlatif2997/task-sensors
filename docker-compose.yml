@@ -29,14 +29,14 @@ services:
       - REACT_APP_GENERATOR_URL=http://10.5.0.13:8081
     volumes:
       - ./client:/code
-    # links:
-    #   - server
-    #   - generator
+    links:
+      - server
+      - generator
     ports:
       - "3000:3000"
-    # depends_on:
-    #   - server
-    #   - generator
+    depends_on:
+      - server
+      - generator
     networks:
       derq:
         ipv4_address: 10.5.0.11
@@ -74,7 +74,6 @@ services:
     depends_on:
       - mongo
     networks:
-      # - derq
       derq:
         ipv4_address: 10.5.0.13
 
