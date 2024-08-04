@@ -29,8 +29,8 @@ app.add_middleware(
 @app.on_event("startup")
 async def start_database():
     await initiate_database()
-    # await process_sensor_data("./data/data_counts.csv")
-    # await process_health_data("./data/data_system.csv")
+    await process_sensor_data("./data/data_counts.csv")
+    await process_health_data("./data/data_system.csv")
     await add_user()
 
 @app.get("/", tags=["Root"])
