@@ -31,6 +31,10 @@ export default function Dashboard() {
         getPedistrianData();
         getHourlyDataByClass();
         getFilters();
+
+        setInterval(() => {
+            applyFilters();
+        }, 3000)
     }, [])
 
     async function getHourlyData() {
