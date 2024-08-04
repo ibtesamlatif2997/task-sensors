@@ -1,0 +1,89 @@
+version: '3.8'
+services:
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: derq
+    volumes:
+      - mongodata:/data/db
+      - ./mongo_config/mongod.conf:/etc/mongo/mongod.conf
+    command: [ "mongod", "--config", "/etc/mongo/mongod.conf" ]
+    networks:
+      derq:
+        ipv4_address: 10.5.0.10
+
+  client:
+    container_name: client
+    build:
+      context: ./client
+    command: ["bash", "-c", "npm start"]
+    environment:
+      - REACT_APP_SERVER_URL=http://10.5.0.12:8080
+      - REACT_APP_GENERATOR_URL=http://10.5.0.13:8081
+    volumes:
+      - ./client:/code
+    links:
+      - server
+      - generator
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+      - generator
+    networks:
+      derq:
+        ipv4_address: 10.5.0.11
+
+  server:
+    container_name: server
+    build:
+      context: ./server
+    environment:
+      - DATABASE_URL=mongodb://root:example@10.5.0.10:27017/derq?authSource=admin
+    command: ["bash", "-c", "python main.py"]
+    volumes:
+      - ./server:/code
+    links:
+      - mongo
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    networks:
+      derq:
+        ipv4_address: 10.5.0.12
+
+  generator:
+    container_name: generator
+    build:
+      context: ./generator
+    environment:
+      - DATABASE_URL=mongodb://root:example@10.5.0.10:27017/derq?authSource=admin
+    command: ["bash", "-c", "python main.py"]
+    links:
+      - mongo
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+    networks:
+      derq:
+        ipv4_address: 10.5.0.13
+
+
+volumes:
+  mongodata: {}
+
+networks:
+  derq:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.1/24
