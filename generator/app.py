@@ -2,11 +2,11 @@ from fastapi import FastAPI, Depends
 
 from auth.jwt_bearer import JWTBearer
 from config.config import initiate_database
-
 from routes.routes import router as ConfigRouter
-
 from fastapi.middleware.cors import CORSMiddleware
+from services.dataGenerator import sensor_data_generator
 
+from fastapi_utilities import repeat_every
 
 app = FastAPI()
 
@@ -27,6 +27,14 @@ app.add_middleware(
 @app.on_event("startup")
 async def start_database():
     await initiate_database()
+    # await sensor_data_generator()
+
+
+@app.on_event("startup")
+@repeat_every(seconds=60)
+async def cronjob():
+    await sensor_data_generator()
+
 
 @app.get("/", tags=["Root"])
 async def read_root():

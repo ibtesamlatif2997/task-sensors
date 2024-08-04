@@ -15,7 +15,3 @@ async def update_config_router(params: Config = Body(...)):
 @router.get("", response_description="Get filters data")
 async def get_config_router():
     return await get_config()
-
-# @router.post("/toggle", response_description="Get filters data")
-# async def set_toggle_onOff(params: ToggleData = Body(...)):
-#     return await toggle_config(params)

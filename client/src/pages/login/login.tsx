@@ -58,9 +58,10 @@ export default function LoginPage() {
             <div style={{ display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: "center", marginTop: "100px" }}>
                 <div>Login</div>
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-                    <InputLabel htmlFor="standard-adornment-password">Username</InputLabel>
+                    <InputLabel htmlFor="standard-adornment-username">Username</InputLabel>
                     <Input
-                        id="standard-adornment-password"
+                        required
+                        id="standard-adornment-username"
                         type='text'
                         onChange={event => setUsername(event.target.value)}
                     />
@@ -68,6 +69,7 @@ export default function LoginPage() {
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                     <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                     <Input
+                        required
                         id="standard-adornment-password"
                         type={showPassword ? 'text' : 'password'}
                         onChange={event => setPassword(event.target.value)}

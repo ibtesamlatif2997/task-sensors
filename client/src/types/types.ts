@@ -12,10 +12,12 @@ export type Password = {
 export type ConfigData = {
     isGenerator: boolean,
     eventsFrequency: number,
-    bicycleProb: number,
-    carProb: number,
-    mobilityAidProb: number,
-    motorcycleProb: number,
-    pedestrianProb: number,
+    probability: {
+        bicycle: number,
+        car: number,
+        mobility_aid: number,
+        motorcycle: number,
+        pedestrian: number,
+    }
     systemDowntimeProb: number
 }
