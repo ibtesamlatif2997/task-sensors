@@ -11,8 +11,8 @@ export default function Datagrid({ data }: { data: any }) {
 
   let rowsData: any = Array.from(Array(24).keys());
 
-  for (let index = 0; index < rowsData.length; index++){
-    rowsData[index] = {id: index, hour: index}
+  for (let index = 0; index < rowsData.length; index++) {
+    rowsData[index] = { id: index, hour: index }
   }
 
   for (const stat of data) {
@@ -30,14 +30,11 @@ export default function Datagrid({ data }: { data: any }) {
     }
   }
 
-  
-
-
 
   console.log(rowsData)
 
   return (
-    <Box style={{ height: 500, width: '100%' }}>
+    <Box sx={{ height: 400, width: '100%' }}>
       <DataGrid rows={rowsData} columns={columns} />
     </Box>
   );

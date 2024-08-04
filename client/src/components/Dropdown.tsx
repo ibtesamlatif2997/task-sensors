@@ -16,7 +16,7 @@ export default function Dropdown({ data, label, value, type }: { data: DropdownD
     }
 
     return (
-        <FormControl >
+        <FormControl>
             <InputLabel id="demo-simple-select-label">{label}</InputLabel>
             <Select
                 style={{ width: '100px' }}

@@ -15,6 +15,7 @@ import {
 
 import SideBarMenu from './components/SideBarMenu';
 import Header from './components/Header';
+import { Container } from '@mui/material';
 
 function isAuthenticated() {
   const isAuthenticated = (localStorage.getItem("access_token") !== "" && localStorage.getItem("access_token") !== null)
@@ -31,22 +32,21 @@ function App() {
           </Routes>
         }
         {isAuthenticated() === true &&
-          <div className="App">
+          <div style={{width: window.innerWidth}} className="App">
             <Header></Header>
 
-            <div style={{ display: 'flex', justifyContent: 'left', margin: "5px", marginBottom: "50px" }}>
-              <div>
+            <div style={{ display: 'flex', justifyContent: 'left', marginBottom: "50px", marginTop: "2px" }}>
+              <div style={{ backgroundColor: "#5d06ba" }}>
                 <SideBarMenu></SideBarMenu>
               </div>
-              <div style={{ width: "80%" }}>
-                <div style={{ marginTop: "30px" }}>
-                  {/* <RouterProvider router={protectedRoutes} /> */}
+              <Container style={{ padding: "10px" }}>
+                <Container style={{ marginTop: "30px" }}>
                   <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/configure" element={<Configuration />} />
                   </Routes>
-                </div>
-              </div>
+                </Container>
+              </Container>
             </div>
           </div>
         }

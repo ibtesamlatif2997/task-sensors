@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { APIService } from '../../services/api.service';
 
 import Graph from '../../components/Graph';
-import { Button, Container } from '@mui/material';
+import { Button, Container, FormControl } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -78,20 +78,28 @@ export default function Dashboard() {
     return (
         <>
             <div>
-                <div style={{ display: 'flex', justifyContent: "space-between", margin: "5px", height: "40px", marginBottom: "50px", width: "80%" }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker value={filters.datetime} onChange={(newValue) => dispatch(setFilters({ date: newValue }))} />
-                    </LocalizationProvider>
+                <div style={{ display: 'flex', justifyContent: "space-between", margin: "5px", height: "40px", marginBottom: "50px", width: "70%" }}>
+                    <FormControl>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker value={filters.datetime} onChange={(newValue) => dispatch(setFilters({ date: newValue }))} />
+                        </LocalizationProvider>
+                    </FormControl>
                     <Dropdown data={sensorFilters} value={filters.sensor} label="Sensors" type="sensor"></Dropdown>
                     <Dropdown data={approachFilters} value={filters.approach} label="Approaches" type="approach"></Dropdown>
-                    <Button variant="outlined" color="error" onClick={resetFilters}>Reset</Button>
-                    <Button variant="contained" color="success" onClick={applyFilters}>Apply</Button>
+                    <FormControl>
+                        <Button variant="outlined" color="error" onClick={resetFilters}>Reset</Button>
+                    </FormControl>
+                    <FormControl>
+                        <Button variant="contained" color="success" onClick={applyFilters}>Apply</Button>
+                    </FormControl>
                 </div>
-                <Container>
+                <div>
                     <Graph data={hourlyData}></Graph>
                     <Graph data={pedistrianData}></Graph>
-                    {hourlyClassData.length > 0 && <Datagrid data={hourlyClassData}></Datagrid>}
-                </Container>
+                    <div>
+                        {hourlyClassData.length > 0 && <Datagrid data={hourlyClassData}></Datagrid>}
+                    </div>
+                </div>
             </div>
         </>
     )
