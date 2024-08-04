@@ -40,4 +40,5 @@ Getting Started directory -> generator
 
 ## Docker
 
+docker compose build
 docker compose up
