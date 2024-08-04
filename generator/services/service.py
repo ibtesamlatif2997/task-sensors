@@ -1,4 +1,4 @@
-from models.config import Config, ToggleData
+from models.config import Config, ToggleData, Probability
 
 
 async def get_config():
@@ -27,3 +27,9 @@ async def update_config(params: Config)-> Config:
 
     else:
         return await params.create()
+
+
+async def initiate_config():
+    config = Config(eventsFrequency=5, isGenerator=True, systemDowntimeProb=5, probability=Probability(bicycle=20, car=20, mobility_aid=20, motorcycle=20, pedestrian=20))
+    
+    await update_config(config)

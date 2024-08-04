@@ -1,6 +1,10 @@
 import pandas as pd
 from models.sensordata import SensorData
 from models.sensorhealth import SensorHealth
+from models.admin import Admin
+from passlib.context import CryptContext
+
+hash_helper = CryptContext(schemes=["bcrypt"])
 
 async def process_sensor_data(file):
     print("processing sensor data")
@@ -43,3 +47,11 @@ async def process_health_data(file):
 
         await SensorHealth.insert_many(bulk_data)
         bulk_data.clear()
+
+
+async def add_user():
+    existing = await Admin.find_one(Admin.email=="ibtesam@gmail.com")
+
+    if(not existing):
+        admin = Admin(email="ibtesam@gmail.com", fullname="Ibtesam Latif", password=hash_helper.encrypt("12345"))
+        await admin.create()

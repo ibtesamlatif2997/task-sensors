@@ -2,8 +2,7 @@ import axios, { isCancel, AxiosError } from 'axios';
 import { Password } from '../types/types';
 import "./http.interceptor"
 
-const SERVER_URL = "http://localhost:8080"
-
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 export const APIService = {
 

@@ -2,7 +2,7 @@ import axios, { isCancel, AxiosError } from 'axios';
 import { ConfigData } from '../types/types';
 import "./http.interceptor"
 
-const SERVER_URL = "http://localhost:8081"
+const SERVER_URL = process.env.REACT_APP_GENERATOR_URL;
 
 export const GeneratorService = {
     get: async () => {

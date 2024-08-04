@@ -8,7 +8,7 @@ from routes.api import router as APIRouter
 
 from fastapi.middleware.cors import CORSMiddleware
 
-from data.ingest_data import process_sensor_data, process_health_data
+from data.ingest_data import add_user, process_sensor_data, process_health_data
 
 app = FastAPI()
 
@@ -31,6 +31,7 @@ async def start_database():
     await initiate_database()
     # await process_sensor_data("./data/data_counts.csv")
     # await process_health_data("./data/data_system.csv")
+    await add_user()
 
 @app.get("/", tags=["Root"])
 async def read_root():

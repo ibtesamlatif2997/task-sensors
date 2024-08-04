@@ -28,12 +28,10 @@ async def sensor_data_generator():
 
     if(config["isGenerator"]):
         for iterator in range(config["eventsFrequency"]):
-            print(total_events)
             if(total_events == 100):
                 events_counter = {}
                 total_events = 0
                 classes = list(map(lambda x: x, dict(config["probability"]).keys()))
-                print(classes)
 
             total_events += 1
 
@@ -58,7 +56,6 @@ async def sensor_data_generator():
 def get_class_with_probability(config, classes):
     global events_counter
 
-    print(">>> classes", classes)
     if(len(classes) == 0):
         return ""
 

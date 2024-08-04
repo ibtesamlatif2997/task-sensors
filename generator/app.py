@@ -5,6 +5,7 @@ from config.config import initiate_database
 from routes.routes import router as ConfigRouter
 from fastapi.middleware.cors import CORSMiddleware
 from services.dataGenerator import sensor_data_generator
+from services.service import initiate_config
 
 from fastapi_utilities import repeat_every
 
@@ -27,7 +28,7 @@ app.add_middleware(
 @app.on_event("startup")
 async def start_database():
     await initiate_database()
-    # await sensor_data_generator()
+    await initiate_config()
 
 
 @app.on_event("startup")
