@@ -2,13 +2,12 @@ from fastapi import FastAPI, Depends
 
 from auth.jwt_bearer import JWTBearer
 from config.config import initiate_database
-
-from routes.admin import router as AdminRouter
-from routes.api import router as APIRouter
-
+from routes.routes import router as ConfigRouter
 from fastapi.middleware.cors import CORSMiddleware
+from services.dataGenerator import sensor_data_generator
+from services.service import initiate_config
 
-from data.ingest_data import add_user, process_sensor_data, process_health_data
+from fastapi_utilities import repeat_every
 
 app = FastAPI()
 
@@ -29,13 +28,17 @@ app.add_middleware(
 @app.on_event("startup")
 async def start_database():
     await initiate_database()
-    await process_sensor_data("./data/data_counts.csv")
-    await process_health_data("./data/data_system.csv")
-    await add_user()
+    await initiate_config()
+
+
+@app.on_event("startup")
+@repeat_every(seconds=60)
+async def cronjob():
+    await sensor_data_generator()
+
 
 @app.get("/", tags=["Root"])
 async def read_root():
     return {"message": "Welcome to this fantastic app."}
 
-app.include_router(AdminRouter, tags=["Administrator"], prefix="/admin")
-app.include_router(APIRouter, tags=["API"],prefix="/api",dependencies=[Depends(token_listener)],)
+app.include_router(ConfigRouter, tags=["CONFIG"], prefix="/config", dependencies=[Depends(token_listener)],)

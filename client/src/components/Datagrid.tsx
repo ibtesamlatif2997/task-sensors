@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import { Box } from '@mui/material';
 
 export default function Datagrid({ data }: { data: any }) {
 
@@ -9,6 +10,10 @@ export default function Datagrid({ data }: { data: any }) {
   const columns: GridColDef[] = [{ field: 'hour', headerName: 'hour', width: 150 }];
 
   let rowsData: any = Array.from(Array(24).keys());
+
+  for (let index = 0; index < rowsData.length; index++){
+    rowsData[index] = {id: index, hour: index}
+  }
 
   for (const stat of data) {
     if (!classMap[stat.class]) {
@@ -25,9 +30,15 @@ export default function Datagrid({ data }: { data: any }) {
     }
   }
 
+  
+
+
+
+  console.log(rowsData)
+
   return (
-    <div style={{ height: 300, width: '100%' }}>
+    <Box style={{ height: 500, width: '100%' }}>
       <DataGrid rows={rowsData} columns={columns} />
-    </div>
+    </Box>
   );
 }

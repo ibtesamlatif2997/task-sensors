@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { DropdownData } from '../types/types';
 import { useDispatch } from 'react-redux';
 import { setFilters } from '../redux/slices/filterSlice';
@@ -16,8 +16,8 @@ export default function Dropdown({ data, label, value, type }: { data: DropdownD
     }
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', margin: "0 10px" }}>
-            <InputLabel style={{ justifyContent: 'center' }} id="demo-simple-select-label">{label}</InputLabel>
+        <FormControl >
+            <InputLabel id="demo-simple-select-label">{label}</InputLabel>
             <Select
                 style={{ width: '100px' }}
                 labelId="demo-simple-select-label"
@@ -30,6 +30,6 @@ export default function Dropdown({ data, label, value, type }: { data: DropdownD
                     return <MenuItem value={element._id}>{element._id}</MenuItem>
                 })}
             </Select>
-        </div>
+        </FormControl>
     )
 }
